@@ -31,6 +31,7 @@ def signup(data: auth_schemas.SignupBase, db:Session = Depends(get_db)):
     else:
         doctor = Doctor(
             user_id=user.id,
+            full_name = data.full_name,
             specialization=data.specialization,
             license_no=data.license_no or "",
             is_approved=False
