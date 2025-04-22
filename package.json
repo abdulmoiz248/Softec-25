@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "animejs": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/animejs": "^3.1.13",
+    "@types/canvas-confetti": "^1.9.0"
+  }
+}
