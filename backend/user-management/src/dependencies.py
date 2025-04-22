@@ -3,9 +3,9 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from jose import JWTError
 
-from .db.session import SessionLocal
-from .core.security import decode_access_token
-from .models.user import User
+from db.session import SessionLocal
+from core.security import decode_jwt_token
+from models.user import User
 from typing import List
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
@@ -26,7 +26,7 @@ def get_current_user(token:str = Depends(oauth2_scheme), db:Session = Depends(ge
         headers={"WWW_Authenticate": "Bearer"}
     )
     try:
-        payload = decode_access_token(token)
+        payload = decode_jwt_token(token)
         email : str = payload.get("sub")
         role = payload.get("role")
         if email is None or role is None:
