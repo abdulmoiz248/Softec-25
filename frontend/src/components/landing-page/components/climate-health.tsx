@@ -191,41 +191,18 @@ export default function ClimateHealth() {
         setLocationPermission(true)
         try {
           const { latitude, longitude } = position.coords
-          // Replace with your actual API key
-          const apiKey = "YOUR_OPENWEATHERMAP_API_KEY"
-          // For demo purposes, we'll use a sample response
-          // In production, uncomment the fetch call below and use your API key
+     
+          const apiKey = 'fd11e81de35b7639af57673fd7b7b71c';
+          
 
-          // const response = await fetch(
-          //   `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`
-          // )
-          // const data = await response.json()
+          const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`
+          )
+          const data = await response.json()
 
-          // Sample data for demo purposes
-          const sampleData = {
-            main: {
-              temp: 22.5,
-              humidity: 65,
-              pressure: 1012,
-              feels_like: 23.2,
-            },
-            weather: [
-              {
-                main: "Clouds",
-                description: "scattered clouds",
-                icon: "03d",
-              },
-            ],
-            name: "Your City",
-            wind: {
-              speed: 3.6,
-            },
-            sys: {
-              country: "US",
-            },
-          }
+      
 
-          setWeatherData(sampleData)
+          setWeatherData(data)
         } catch (err) {
           setError("Failed to fetch weather data")
           console.error(err)
