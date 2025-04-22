@@ -1,7 +1,7 @@
 import enum
 from sqlalchemy import Column, String, Boolean, Integer, Enum
 from sqlalchemy.orm import relationship
-from ..db.base import Base
+from db.base import Base
 
 class UserRole(str, enum.Enum):
     patient = "patient"

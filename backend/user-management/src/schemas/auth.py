@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, constr
-from ..models.user import UserRole
+from models.user import UserRole
 from typing import Literal, Optional, Annotated
 
 class SignupBase(BaseModel):
