@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
-from ..models.user import UserRole
+from models.user import UserRole
 
 class UserRead(BaseModel):
     id: int
@@ -8,8 +8,8 @@ class UserRead(BaseModel):
     role: UserRole
     is_verified: bool
 
-    class Config: 
-        orm_mode = True
+    class Config:
+        from_attributes = True
 
 class PatientRead(UserRead):
     full_name: Optional[str]
