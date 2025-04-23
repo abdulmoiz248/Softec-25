@@ -2,11 +2,27 @@ from fastapi import FastAPI
 from db import base, session
 from core.config import settings
 from routes import auth, patient, doctor, admin as admin_router
+from fastapi.middleware.cors import CORSMiddleware
 
 # Create tables
 base.Base.metadata.create_all(bind=session.engine)
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",         # Next.js dev server
+    # Add your deployed frontend here
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,            # or ["*"] to allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(patient.router, prefix="/patient")
 app.include_router(doctor.router, prefix="/doctor")
