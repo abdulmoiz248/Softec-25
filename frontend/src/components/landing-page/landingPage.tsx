@@ -11,18 +11,20 @@ import BlogNewsletter from "@/components/landing-page/components/blog-newsletter
 import Faq from "@/components/landing-page/components/faq"
 import FloatingAvatar from "@/components/landing-page/components/floating-avatar"
 import PartnershipMarquee from "@/components/landing-page/components/partnership-marquee"
+import Navbar from "../layouts/navbar"
 
 export default function LandingPage() {
   return (
     <main className="min-h-screen overflow-x-hidden">
+      <Navbar/>
       <HeroSection />
       <HistoricalTimeline />
       <MissionStats />
       <HowItWorks />
       <HealthScoreQuiz />
-      <Leaderboard />
+      {/* <Leaderboard /> */}
       <ClimateHealth />
-      <DoctorQuiz />
+      {/* <DoctorQuiz /> */}
       <Testimonials />
       <BlogNewsletter />
       <Faq />

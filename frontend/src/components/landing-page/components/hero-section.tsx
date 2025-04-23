@@ -106,7 +106,7 @@ export default function HeroSection() {
           >
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-[#34C759]/20 to-[#8A2BE2]/20 rounded-full blur-xl"></div>
-              <img src="/images/hygieia-logo.png" alt="Hygieia Logo" className="w-full h-auto relative z-10" />
+              <img src="/hygieia-logo.png" alt="Hygieia Logo" className="w-full h-auto relative z-10" />
             </div>
           </motion.div>
 

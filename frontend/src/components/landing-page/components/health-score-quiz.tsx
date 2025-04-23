@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
@@ -38,31 +38,48 @@ const questions = [
 
 export default function HealthScoreQuiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [answers, setAnswers] = useState<any[]>([])
+  const [answers, setAnswers] = useState<(number | undefined)[]>(Array(questions.length).fill(undefined))
   const [showResults, setShowResults] = useState(false)
   const [score, setScore] = useState(0)
+  const [sliderValue, setSliderValue] = useState<number[]>([5])
+
+  // Initialize slider value when reaching the slider question
+  useEffect(() => {
+    if (questions[currentQuestion]?.type === "slider") {
+      setSliderValue([answers[currentQuestion] !== undefined ? answers[currentQuestion] as number : 5])
+    }
+  }, [currentQuestion, answers])
 
   const handleEmojiAnswer = (index: number) => {
     const newAnswers = [...answers]
     newAnswers[currentQuestion] = index
     setAnswers(newAnswers)
 
-    if (currentQuestion < questions.length - 1) {
-      setTimeout(() => {
+    // Add a small delay before moving to the next question
+    setTimeout(() => {
+      if (currentQuestion < questions.length - 1) {
         setCurrentQuestion(currentQuestion + 1)
-      }, 300)
-    } else {
-      calculateScore(newAnswers)
-    }
+      } else {
+        calculateScore(newAnswers)
+      }
+    }, 300)
   }
 
   const handleSliderAnswer = (value: number[]) => {
+    setSliderValue(value)
     const newAnswers = [...answers]
     newAnswers[currentQuestion] = value[0]
     setAnswers(newAnswers)
   }
 
   const handleNext = () => {
+    // Ensure we have an answer for the current question
+    if (answers[currentQuestion] === undefined && questions[currentQuestion].type === "slider") {
+      const newAnswers = [...answers]
+      newAnswers[currentQuestion] = sliderValue[0]
+      setAnswers(newAnswers)
+    }
+
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
     } else {
@@ -70,29 +87,43 @@ export default function HealthScoreQuiz() {
     }
   }
 
-  const calculateScore = (allAnswers: any[]) => {
+  const calculateScore = (allAnswers: (number | undefined)[]) => {
+    // Check if all questions are answered
+    if (allAnswers.some(answer => answer === undefined)) {
+      alert("Please answer all questions before seeing your results.")
+      return
+    }
+
     // Simple scoring algorithm
     let totalScore = 0
+    let answeredQuestions = 0
 
     allAnswers.forEach((answer, index) => {
+      if (answer === undefined) return
+      
+      answeredQuestions++
       const question = questions[index]
 
       if (question.type === "emoji") {
-        // For emoji questions, higher index = better health habit
-        totalScore += answer * 25
+        // For emoji questions, higher index = better health habit (0-3 scale)
+        totalScore += answer * 25 // Scale to 0-75
       } else if (question.type === "slider") {
         // For stress slider, lower is better (reverse score)
-        totalScore += (10 - answer) * 10
+        // Scale is 0-10, so reverse and convert to 0-100
+        totalScore += (10 - answer) * 10 // Scale to 0-100
       }
     })
 
-    // Normalize score to 0-100
-    const normalizedScore = Math.min(100, Math.max(0, totalScore / allAnswers.length))
-    setScore(Math.round(normalizedScore))
+    // Calculate average score only from answered questions
+    const normalizedScore = answeredQuestions > 0 ? Math.round(totalScore / answeredQuestions) : 0
+    
+    // Ensure score is within 0-100 range
+    const finalScore = Math.min(100, Math.max(0, normalizedScore))
+    setScore(finalScore)
     setShowResults(true)
 
-    // Trigger confetti effect
-    if (normalizedScore > 70) {
+    // Trigger confetti effect for good scores
+    if (finalScore > 70) {
       triggerConfetti()
     }
   }
@@ -107,10 +138,14 @@ export default function HealthScoreQuiz() {
 
   const resetQuiz = () => {
     setCurrentQuestion(0)
-    setAnswers([])
+    setAnswers(Array(questions.length).fill(undefined))
     setShowResults(false)
     setScore(0)
+    setSliderValue([5])
   }
+
+  // Calculate progress percentage
+  const progressPercentage = Math.round(((currentQuestion + 1) / questions.length) * 100)
 
   return (
     <section className="py-20 px-4 md:px-10 bg-gradient-to-br from-[#f0f9ff] to-[#e0f2fe]">
@@ -143,12 +178,12 @@ export default function HealthScoreQuiz() {
                     <span>
                       Question {currentQuestion + 1} of {questions.length}
                     </span>
-                    <span>{Math.round(((currentQuestion + 1) / questions.length) * 100)}% Complete</span>
+                    <span>{progressPercentage}% Complete</span>
                   </div>
                   <div className="w-full h-2 bg-gray-100 rounded-full">
                     <div
                       className="h-full bg-gradient-to-r from-[#2A5C82] to-[#34C759] rounded-full transition-all duration-500"
-                      style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+                      style={{ width: `${progressPercentage}%` }}
                     ></div>
                   </div>
                 </div>
@@ -159,29 +194,32 @@ export default function HealthScoreQuiz() {
 
                 {questions[currentQuestion].type === "emoji" && (
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {questions[currentQuestion].options?.map((option, index) => (
-                      <motion.button
-                        key={index}
-                        onClick={() => handleEmojiAnswer(index)}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`p-4 rounded-xl border-2 transition-all duration-300 ${
-                          answers[currentQuestion] === index
-                            ? "border-[#34C759] bg-[#34C759]/10"
-                            : "border-gray-200 hover:border-[#2A5C82]"
-                        }`}
-                      >
-                        <div className="text-2xl mb-2">{option.split(" ")[0]}</div>
-                        <div className="text-sm text-gray-600">{option.split(" ")[1]}</div>
-                      </motion.button>
-                    ))}
+                    {questions[currentQuestion].options?.map((option, index) => {
+                      const [emoji, text] = option.split(" ")
+                      return (
+                        <motion.button
+                          key={index}
+                          onClick={() => handleEmojiAnswer(index)}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className={`p-4 rounded-xl border-2 transition-all duration-300 ${
+                            answers[currentQuestion] === index
+                              ? "border-[#34C759] bg-[#34C759]/10"
+                              : "border-gray-200 hover:border-[#2A5C82]"
+                          }`}
+                        >
+                          <div className="text-2xl mb-2">{emoji}</div>
+                          <div className="text-sm text-gray-600">{text}</div>
+                        </motion.button>
+                      )
+                    })}
                   </div>
                 )}
 
                 {questions[currentQuestion].type === "slider" && (
                   <div className="py-8">
                     <Slider
-                      defaultValue={[answers[currentQuestion] || 5]}
+                      value={sliderValue}
                       max={questions[currentQuestion].max}
                       min={questions[currentQuestion].min}
                       step={questions[currentQuestion].step}
@@ -189,13 +227,17 @@ export default function HealthScoreQuiz() {
                       className="mb-8"
                     />
 
-                    <div className="flex justify-between text-sm text-gray-500">
+                    <div className="flex justify-between text-sm text-gray-500 mb-4">
                       {questions[currentQuestion].labels?.map((label, index) => (
                         <span key={index}>{label}</span>
                       ))}
                     </div>
 
-                    <div className="mt-8 flex justify-end">
+                    <div className="text-center mb-8 text-lg font-medium text-[#2A5C82]">
+                      Selected: {sliderValue[0]}
+                    </div>
+
+                    <div className="flex justify-end">
                       <Button onClick={handleNext} className="bg-[#2A5C82] hover:bg-[#1a3a5f] text-white">
                         {currentQuestion < questions.length - 1 ? "Next Question" : "See Results"}
                       </Button>
@@ -216,7 +258,7 @@ export default function HealthScoreQuiz() {
                 <div className="relative w-64 h-64 mx-auto mb-8">
                   <svg className="w-full h-full" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="45" fill="none" stroke="#f0f0f0" strokeWidth="10" />
-                    <circle
+                    <motion.circle
                       cx="50"
                       cy="50"
                       r="45"
@@ -227,9 +269,11 @@ export default function HealthScoreQuiz() {
                       strokeDashoffset="0"
                       strokeLinecap="round"
                       transform="rotate(-90 50 50)"
-                      className="transition-all duration-1000 ease-out"
+                      initial={{ strokeDasharray: "0 283" }}
+                      animate={{ strokeDasharray: `${score * 2.83} 283` }}
+                      transition={{ duration: 1.5, ease: "easeOut" }}
                     />
-                    <text
+                    <motion.text
                       x="50"
                       y="50"
                       dominantBaseline="middle"
@@ -237,12 +281,25 @@ export default function HealthScoreQuiz() {
                       fontSize="24"
                       fontWeight="bold"
                       fill="#0c2842"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.5, duration: 0.5 }}
                     >
                       {score}
-                    </text>
-                    <text x="50" y="65" dominantBaseline="middle" textAnchor="middle" fontSize="12" fill="#666">
+                    </motion.text>
+                    <motion.text
+                      x="50"
+                      y="65"
+                      dominantBaseline="middle"
+                      textAnchor="middle"
+                      fontSize="12"
+                      fill="#666"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.7, duration: 0.5 }}
+                    >
                       out of 100
-                    </text>
+                    </motion.text>
                   </svg>
                 </div>
 
