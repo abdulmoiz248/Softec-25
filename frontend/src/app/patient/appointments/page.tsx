@@ -8,6 +8,7 @@ import DoctorsList from "@/components/patient/appointments/doctors-list"
 import BookingModal from "@/components/patient/appointments/booking-modal"
 import AppointmentReminder from "@/components/patient/appointments/appointment-reminder"
 import { Calendar } from "lucide-react"
+import TopBar from "@/components/patient/dashboard/top-bar/top-bar"
 
 export default function AppointmentPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
@@ -33,6 +34,7 @@ export default function AppointmentPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#09203F] to-[#537895]">
+      <TopBar/>
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
         {/* Page Header */}
         <motion.div

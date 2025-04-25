@@ -11,35 +11,35 @@ const testimonials = [
     role: "Fitness Enthusiast",
     quote:
       "Hygieia has completely transformed my approach to health. The personalized recommendations and AI diagnostics are incredibly accurate!",
-    avatar: "/placeholder.svg?height=80&width=80",
+    avatar: "/doctor.png",
   },
   {
     name: "Dr. Michael Chen",
     role: "Cardiologist",
     quote:
       "As a healthcare professional, I'm impressed by Hygieia's accuracy. It's a valuable tool that complements traditional medical care.",
-    avatar: "/placeholder.svg?height=80&width=80",
+    avatar: "/doctor.png",
   },
   {
     name: "Aisha Patel",
     role: "Working Mom",
     quote:
       "The convenience of getting health assessments from home has been a game-changer for my family. Hygieia gives me peace of mind.",
-    avatar: "/placeholder.svg?height=80&width=80",
+    avatar: "/doctor.png",
   },
   {
     name: "James Wilson",
     role: "Marathon Runner",
     quote:
       "I use Hygieia to track my performance and health metrics. The insights have helped me optimize my training and recovery.",
-    avatar: "/placeholder.svg?height=80&width=80",
+    avatar: "/doctor.png",
   },
   {
     name: "Elena Rodriguez",
     role: "Wellness Coach",
     quote:
       "I recommend Hygieia to all my clients. The combination of ancient wisdom and modern AI creates a holistic approach to health.",
-    avatar: "/placeholder.svg?height=80&width=80",
+    avatar: "/doctor.png",
   },
 ]
 
