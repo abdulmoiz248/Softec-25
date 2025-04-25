@@ -18,7 +18,7 @@ const Signup = () => {
   const router=useRouter();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement actual signup logic
+ 
    //router.push('/patient/dashboard');
   };
 
