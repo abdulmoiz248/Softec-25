@@ -15,19 +15,19 @@ const blogPosts = [
     excerpt:
       "Discover how machine learning algorithms are revolutionizing healthcare diagnostics with unprecedented accuracy.",
     category: "Technology",
-    image: "/placeholder.svg?height=200&width=300",
+    image: "/tech.png",
   },
   {
     title: "Ancient Healing Practices in Modern Medicine",
     excerpt: "Exploring how traditional remedies from around the world are being validated by modern science.",
     category: "Wellness",
-    image: "/placeholder.svg?height=200&width=300",
+    image: "/fit.png",
   },
   {
     title: "Nutrition Myths Debunked by AI",
     excerpt: "Our AI analysis of thousands of nutrition studies reveals surprising truths about common diet beliefs.",
     category: "Nutrition",
-    image: "/placeholder.svg?height=200&width=300",
+    image: "/nut.png",
   },
 ]
 
