@@ -6,17 +6,18 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, EyeOff, Mail, Lock, Stethoscope } from "lucide-react";
 import Navbar from '@/components/layouts/navbar';
+import { useRouter } from 'next/navigation';
 
 const DoctorLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
+  const router=useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Implement actual login logic
-   // navigate('/dashboard');
+    router.push('/doctor/dashboard');
   };
 
   return (
