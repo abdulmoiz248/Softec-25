@@ -82,7 +82,7 @@ export default function Dashboard() {
   useEffect(()=>{
     const fetchSalesData = async () => {
       try {
-        const res = await axios.get('/api/admin/sales')
+        const res = await axios.get('/api/pharmacist/sales')
         if (res.data.success) {
           setSalesData(res.data.sales)
           setSummary(res.data.summary)
@@ -117,7 +117,7 @@ export default function Dashboard() {
 
   const addCategory = async (formData: unknown) => {
     try {
-      const res = await axios.post('/api/admin/category', formData)
+      const res = await axios.post('/api/pharmacist/category', formData)
       if (res.data.success) {
         console.log('Category added successfully')
       }
@@ -130,7 +130,7 @@ export default function Dashboard() {
 
   const addProduct = async (formData: unknown) => {
     try {
-      const res = await axios.post('/api/admin/product', formData)
+      const res = await axios.post('/api/pharmacist/product', formData)
       if (res.data.success) {
         console.log('Product added successfully')
       }
@@ -143,7 +143,7 @@ export default function Dashboard() {
 
   const addDiscount = async (data: unknown) => {
     try {
-      const res = await axios.post('/api/admin/discount', data)
+      const res = await axios.post('/api/pharmacist/discount', data)
       if (res.data.success) {
         console.log('Discount added successfully')
       }
@@ -156,7 +156,7 @@ export default function Dashboard() {
 
   const addFeature = async (data: unknown) => {
     try {
-      const res = await axios.post('/api/admin/feature-product', data)
+      const res = await axios.post('/api/pharmacist/feature-product', data)
       if (res.data.success) {
         console.log('Product featured successfully')
       }
@@ -169,7 +169,7 @@ export default function Dashboard() {
 
   const deleteProduct = async (data: { productId: string }) => {
     try {
-      const res = await axios.delete(`/api/admin/product/${data.productId}`)
+      const res = await axios.delete(`/api/pharmacist/product/${data.productId}`)
       if (res.data.success) {
         console.log('Product deleted successfully')
       }
@@ -182,7 +182,7 @@ export default function Dashboard() {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post("/api/admin/logout")
+      const res = await axios.post("/api/pharmacist/logout")
       if (res.data.success) {
         console.log("Logged out successfully")
         router.push("/")
@@ -228,8 +228,8 @@ export default function Dashboard() {
             { title: "Add Discount", icon: Tag, handler: () => handleOpenModal(setIsDiscountModalOpen) },
             { title: "Feature a Product", icon: Star, handler: () => handleOpenModal(setIsFeatureModalOpen) },
             { title: "Delete a Product", icon: Trash2, handler: () => handleOpenModal(setIsDeleteModalOpen) },
-            { title: "View Pending Orders", icon: ShoppingCart, handler: () => router.push('/admin/order/pending')},
-           { title: "View All Orders", icon: Package, handler: () => router.push('/admin/order/all') },
+            { title: "View Pending Orders", icon: ShoppingCart, handler: () => router.push('/pharmacist/order/pending')},
+           { title: "View All Orders", icon: Package, handler: () => router.push('/pharmacist/order/all') },
           ].map((item, index) => (
             <motion.div
               key={item.title}
