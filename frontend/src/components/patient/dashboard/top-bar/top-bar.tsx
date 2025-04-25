@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Bell, Settings, User, LogOut, Heart, FileText, Calendar, Pill, Droplet } from "lucide-react"
 import { useMobile } from "@/hooks/use-mobile"
+import { useRouter } from "next/navigation"
 
 type UserMenuOption = {
   id: string
@@ -26,34 +27,34 @@ export default function TopBar() {
   const [hasNotifications, setHasNotifications] = useState(true)
   const userMenuRef = useRef<HTMLDivElement>(null)
   const isMobile = useMobile()
-
+  const router=useRouter();
   const navItems: NavItem[] = [
     {
       id: "records",
       label: "Medical Records",
       icon: FileText,
-      href: "/records",
+      href: "/patient/records",
       color: "from-blue-500 to-blue-600",
     },
     {
       id: "appointments",
       label: "Appointments",
       icon: Calendar,
-      href: "/appointments",
+      href: "/patient/appointments",
       color: "from-green-500 to-green-600",
     },
     {
       id: "pharmacy",
       label: "E-Pharmacy",
       icon: Pill,
-      href: "/pharmacy",
+      href: "/e-commerce",
       color: "from-cyan-500 to-cyan-600",
     },
     {
       id: "blood",
       label: "Blood Donation",
       icon: Droplet,
-      href: "/blood-donation",
+      href: "/patient/blood-donation",
       color: "from-red-500 to-red-600",
     },
   ]
@@ -121,7 +122,10 @@ export default function TopBar() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               className={`relative flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200 text-white/70 hover:text-white hover:bg-gradient-to-r ${item.color} hover:shadow-lg`}
-              onClick={(e) => e.preventDefault()} // Prevent any click behavior
+              onClick={(e) => {
+                e.preventDefault()
+                router.push(item.href)
+              }} // Prevent any click behavior
             >
               <item.icon className="w-5 h-5" />
               <span className="mt-1 text-xs font-medium">{item.label}</span>

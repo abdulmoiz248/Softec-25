@@ -11,7 +11,9 @@ import AppointmentsMock from "@/components/patient/dashboard/mock-data/appointme
 import TopBar from "@/components/patient/dashboard/top-bar/top-bar"
 import MobileNav from "@/components/patient/dashboard/top-bar/mobile-nav"
 
+
 export default function DashboardPage() {
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#09203F] to-[#537895]">
       <TopBar />
@@ -23,7 +25,7 @@ export default function DashboardPage() {
           transition={{ duration: 0.5 }}
           className="mb-8 pt-4"
         >
-          <h1 className="text-3xl font-bold text-white md:text-4xl">Welcome back, Sarah</h1>
+          <h1 className="text-3xl font-bold text-white md:text-4xl">Welcome back, Sarim</h1>
           <p className="mt-2 text-blue-100">Here's your health dashboard for today</p>
         </motion.div>
 
