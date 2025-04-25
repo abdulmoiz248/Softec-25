@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { User, ArrowRight, Heart, Brain, Activity, Users } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export default function MissionStats() {
   const heartbeatRef = useRef<SVGSVGElement>(null)
@@ -19,6 +20,7 @@ export default function MissionStats() {
     return () => clearInterval(interval)
   }, [])
 
+  const router=useRouter();
   return (
     <section className="py-20 px-4 md:px-10 bg-gradient-to-br from-[#f8fafc] to-[#e2f1ff]">
       <div className="max-w-7xl mx-auto">
@@ -120,7 +122,7 @@ export default function MissionStats() {
                     <p className="text-gray-600 mb-2">Join our network of top doctors</p>
                   </div>
                 </div>
-                <Button className="w-full mt-4 bg-[#2A5C82] hover:bg-[#1a3a5f] text-white">
+                <Button  onClick={() => router.push('/staff/roles')} className="w-full mt-4 bg-[#2A5C82] hover:bg-[#1a3a5f] text-white">
                   Join Hygieia <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </Card>
@@ -198,12 +200,12 @@ export default function MissionStats() {
 
             {/* CTA Buttons */}
             <div className="space-y-4 mt-8">
-              <Button className="w-full py-6 bg-gradient-to-r from-[#8A2BE2] to-[#6A5ACD] hover:from-[#6A5ACD] hover:to-[#8A2BE2] text-white text-lg relative overflow-hidden group">
+              <Button  onClick={() => router.push('/patient/login')} className="w-full py-6 bg-gradient-to-r from-[#8A2BE2] to-[#6A5ACD] hover:from-[#6A5ACD] hover:to-[#8A2BE2] text-white text-lg relative overflow-hidden group">
                 <span>Login / Register</span>
                 <span className="absolute bottom-0 left-0 w-full h-1 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Button>
 
-              <Button className="w-full py-6 bg-gradient-to-r from-[#34C759] to-[#32CD32] hover:from-[#32CD32] hover:to-[#34C759] text-white text-lg relative overflow-hidden group">
+              <Button  onClick={() => router.push('/e-commerce')} className="w-full py-6 bg-gradient-to-r from-[#34C759] to-[#32CD32] hover:from-[#32CD32] hover:to-[#34C759] text-white text-lg relative overflow-hidden group">
                 <span>Order Meds Now</span>
                 <span className="absolute bottom-0 left-0 w-full h-1 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Button>

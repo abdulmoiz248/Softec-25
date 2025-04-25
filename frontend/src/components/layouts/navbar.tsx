@@ -113,10 +113,10 @@ export default function Navbar() {
                   {item.name}
                 </Link>
               ))}
-              <Button onClick={()=>{
+              <Button 
                 
-                router.push("/patient/login")
-              }}
+                onClick={() => router.push('/patient/login')}
+            
                className="bg-blue-500 hover:bg-blue-600 text-white">Get Started</Button>
             </nav>
           </div>
