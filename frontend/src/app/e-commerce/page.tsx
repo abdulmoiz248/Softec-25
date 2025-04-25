@@ -98,21 +98,21 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-    //  try {
-      //  const res = await axios.get('/api/fetchAll');
-      //   if (res.data.success) {
-      //     setLoading(false);
-      //     setProducts(res.data.products);
-      //     setCategories(res.data.categories);
-      //     // Scroll to the top once the loading is done
-      //     window.scrollTo({ top: 0, behavior: 'smooth' });
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      //   window.location.reload();
-      // }finally{
+     try {
+       const res = await axios.get('/api/fetchAll');
+        if (res.data.success) {
+          setLoading(false);
+          setProducts(res.data.products);
+          setCategories(res.data.categories);
+          // Scroll to the top once the loading is done
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } catch (error) {
+        console.log(error);
+        window.location.reload();
+      }finally{
          setLoading(false);
-       
+      }
     };
     fetchData();
   }, []);

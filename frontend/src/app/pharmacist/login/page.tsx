@@ -23,15 +23,15 @@ export default function Page() {
      }
 
   try {
-      const res=await axios.post('/api/admin/login',{email,password});
+      //const res=await axios.post('/api/admin/login',{email,password});
      
-      if(res.data.success){
+      // if(res.data.success){
       
-        router.push('/admin/dashboard');
+        router.push('/pharmacist/dashboard');
       
-      }else{
-        setMessage("Invalid Email or Password");
-      }
+      // }else{
+      //   setMessage("Invalid Email or Password");
+      // }
   } catch (error) {
       console.log(error);
       setMessage("Invalid Email or Password");
@@ -42,7 +42,7 @@ export default function Page() {
     <div className="mt-4 mb-5 flex flex-col w-full sm:w-2/3 md:w-1/2 xl:w-2/5 mx-auto p-6 md:p-8 bg-white rounded-2xl shadow-xl">
       <div className="flex mt-14   flex-col justify-center items-center gap-3 pb-4">
      
-        <h1 className="text-3xl font-bold text-[#1b03a3]">Zero Limit</h1>
+        <h1 className="text-3xl font-bold text-[#1b03a3]">Hygieia</h1>
       </div>
       <div className="text-sm text-gray-500 pb-8 text-center">Login to your account on Your Company.</div>
       <form className="flex flex-col" onSubmit={handleSubmit}>
