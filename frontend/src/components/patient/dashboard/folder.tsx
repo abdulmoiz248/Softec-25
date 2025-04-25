@@ -5,6 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 interface FolderProps {
   color?: string
@@ -14,6 +15,7 @@ interface FolderProps {
   label: string
   mockContent?: React.ReactNode
   viewAllLabel?: string
+  link:string
 }
 
 const darkenColor = (hex: string, percent: number): string => {
@@ -35,6 +37,7 @@ const darkenColor = (hex: string, percent: number): string => {
 }
 
 const Folder: React.FC<FolderProps> = ({
+  link,
   color = "#00d8ff",
   size = 1,
   items = [],
@@ -105,6 +108,7 @@ const Folder: React.FC<FolderProps> = ({
     if (index === 2) return "translate(-50%, -100%) rotate(5deg)"
     return ""
   }
+  const router=useRouter();
 
   return (
     <div className={`flex flex-col items-center ${className}`}>
@@ -203,6 +207,10 @@ const Folder: React.FC<FolderProps> = ({
       </AnimatePresence>
 
       <motion.button
+        onClick={(e) => {
+          e.preventDefault()
+          router.push(link)
+        }} // Prevent any click behavior
         whileHover={{ scale: 1.05, x: 5 }}
         whileTap={{ scale: 0.95 }}
         className="flex items-center mt-4 text-sm font-medium text-white/80 transition-colors hover:text-white"

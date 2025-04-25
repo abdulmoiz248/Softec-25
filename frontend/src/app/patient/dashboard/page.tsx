@@ -44,6 +44,7 @@ export default function DashboardPage() {
               label="Medical Records"
               className="mb-32 md:mb-0"
               mockContent={<MedicalRecordsMock />}
+              link="/patient/records"
               viewAllLabel="View all medical records"
             />
             <Folder
@@ -52,6 +53,7 @@ export default function DashboardPage() {
               label="Appointments"
               mockContent={<AppointmentsMock />}
               viewAllLabel="View all appointments"
+              link="/patient/appointments"
             />
           </div>
         </div>
