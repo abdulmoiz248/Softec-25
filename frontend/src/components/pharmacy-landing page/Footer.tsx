@@ -19,47 +19,7 @@ const Footer = () => {
   ];
 
   const modalContents = {
-    'Size Chart': (
-      <div>
-        <h2 className="text-2xl font-bold   mb-4">Size Chart</h2>
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2">Size</th>
-              <th className="border border-gray-300 p-2">Chest (inches)</th>
-              <th className="border border-gray-300 p-2">Waist (inches)</th>
-              <th className="border border-gray-300 p-2">Hip (inches)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 p-2">S</td>
-              <td className="border border-gray-300 p-2">34-36</td>
-              <td className="border border-gray-300 p-2">28-30</td>
-              <td className="border border-gray-300 p-2">34-36</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">M</td>
-              <td className="border border-gray-300 p-2">38-40</td>
-              <td className="border border-gray-300 p-2">32-34</td>
-              <td className="border border-gray-300 p-2">38-40</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">L</td>
-              <td className="border border-gray-300 p-2">42-44</td>
-              <td className="border border-gray-300 p-2">36-38</td>
-              <td className="border border-gray-300 p-2">42-44</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">XL</td>
-              <td className="border border-gray-300 p-2">46-48</td>
-              <td className="border border-gray-300 p-2">40-42</td>
-              <td className="border border-gray-300 p-2">46-48</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    ),
+   
     'Privacy Policy': (
       <div>
         <h2 className="text-2xl font-bold mb-4">Privacy Policy</h2>
@@ -132,14 +92,14 @@ const Footer = () => {
               className="flex items-center space-x-3"
             >
               <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#1b03a3] to-[#3b23c3]">
-               <Image alt="logo" src='/images/Lion.JPG' width={100} height={100}/>
+               <Image alt="logo" src='/hygieia-logo.png' width={100} height={100}/>
               </div>
               <span className="self-center text-2xl font-bold  text-black">
-              Zero Limit 
+              Hygieia
               </span>
             </a>
             <p className="mt-4 text-sm text-gray-600">
-            Beyond boundaries, Wear your freedom
+           From the heart of the pharmacy, we bring you the best in health and wellness. Our commitment to quality and service is unmatched.
             </p>
           </motion.div>
 
@@ -178,15 +138,10 @@ const Footer = () => {
         >
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-sm text-gray-600 mb-4 md:mb-0">
-              ©2024 Zero Limit . All rights reserved.
+              ©2025 Hygieia . All rights reserved.
             </div>
             <div className="flex flex-wrap justify-center space-x-4">
-              <button
-                onClick={() => openModal('Size Chart')}
-                className="text-sm text-gray-600 hover:text-[#1b03a3] transition-colors duration-300"
-              >
-                Size Chart
-              </button>
+             
               <button
                 onClick={() => openModal('Privacy Policy')}
                 className="text-sm text-gray-600 hover:text-[#1b03a3] transition-colors duration-300"

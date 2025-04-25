@@ -4,23 +4,23 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const phrases = [
-  "BREAK THE MOLD",
-  "DEFY GRAVITY",
-  "EMBRACE CHAOS",
-  "REWRITE THE RULES",
-  "IGNITE REVOLUTION",
- ,"Be bold, wear freedom."  
-, "Fearless style, limitless freedom."  
-, "Dare more, wear free."  
-, "Fearless fashion, boundless you."  
-, "Own freedom, stay fearless."  
-, "Limitless threads for fearless souls."  
-, "Bold looks, free spirit."  
-, "Fearless by choice, free by style."  
-, "Wear bold, live free."
+  "PRECISION IS POWER",
+  "HEALTH WITHOUT LIMITS",
+  "BEYOND THE COUNTER",
+  "CARE THAT NEVER STOPS",
+  "REDEFINING PHARMACY",
+  "Empower health, redefine care.",
+  "Where medicine meets innovation.",
+  "Heal smart. Live strong.",
+  "Pharmacy with purpose.",
+  "Precision. Passion. Pharmacy.",
+  "Your health, our mission.",
+  "Driven by science, guided by care.",
+  "More than meds — it’s a movement.",
+  "Delivering wellness fearlessly.",
 ];
 
-export default function LimitZeroManifesto() {
+export default function PharmacyManifesto() {
   const [currentPhrase, setCurrentPhrase] = useState(0);
 
   useEffect(() => {
@@ -40,10 +40,10 @@ export default function LimitZeroManifesto() {
           className="text-center mb-8 md:mb-12"
         >
           <h2 className="text-3xl md:text-5xl font-extrabold mb-2 md:mb-4 text-white">
-            THE FEARLESS WEAR LIMIT ZERO
+            THE FUTURE OF PHARMACY STARTS HERE
           </h2>
           <p className="text-lg md:text-xl text-gray-300">
-            Because limits are meant to be shattered
+            Empowering care, one prescription at a time
           </p>
         </motion.div>
 
@@ -71,10 +71,11 @@ export default function LimitZeroManifesto() {
           className="max-w-2xl mx-auto text-center"
         >
           <h4 className="text-xl md:text-2xl font-bold mb-4 text-white">
-            Our Manifesto
+            Our Mission
           </h4>
           <p className="text-base md:text-lg text-white leading-relaxed">
-          At Zero Limit, our clothes aren’t just worn—they are experienced. We craft fashion that transcends trends, creating bold expressions of individuality, confidence, and empowerment. Every piece is designed to inspire those who wear it to break boundaries, embrace their uniqueness, and make a statement that resonates beyond the fabric.  </p>
+            At Hygieia, the pharmacy isn’t just a counter—it’s the front line of better health. We fuse technology with trust to deliver fast, accurate, and accessible medication. Every dose, every interaction, every service is crafted to empower both pharmacists and patients. We’re here to revolutionize care—one prescription, one person, one fearless move at a time.
+          </p>
         </motion.div>
       </div>
     </section>

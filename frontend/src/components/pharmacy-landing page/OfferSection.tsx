@@ -8,13 +8,14 @@ import Slider from 'react-slick'
 
 const OfferSection = () => {
   const offers = [
-    "Bold and Fearless Designs",
-    "Fast and Reliable Shipping",
-    "Exceptional Customer Service",
-    "300+ GSM Products",
-    "High Thread Count",
-    "Competitive Pricing"
+    "Genuine and Certified Medicines",
+    "Fast and Discreet Delivery",
+    "Round-the-Clock Pharmacist Support",
+    "Secure Digital Prescriptions",
+    "Affordable Healthcare Solutions",
+    "Trusted by Thousands Nationwide"
   ]
+  
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -56,10 +57,10 @@ const OfferSection = () => {
     <section className="px-4 border-b-2  py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 text-black">
       <div className="max-w-3xl mx-auto text-center mb-12">
         <h2 className="text-4xl font-extrabold leading-tight text-black mb-4">
-          What Zero Limit Offers
+          What Hygieia Offers
         </h2>
         <p className="text-xl text-black opacity-80">
-          Elevate your experience with Zero Limit’s premium products and services.
+          Elevate your experience with Hygieia’s premium products and services.
         </p>
       </div>
       

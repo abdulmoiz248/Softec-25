@@ -15,7 +15,7 @@ const Card = () => {
             <div className="logo1">
            
               <Image
-                src="/images/Lion.JPG"
+                src="/hygieia-logo.png"
                 alt="lion logo"
                 width={100}
                 height={100}
@@ -23,7 +23,7 @@ const Card = () => {
                // priority={true} 
               />
               <Image
-                src="/images/logo.png"
+                src="/hygieia-logo.png"
                 alt="Zero Limit logo"
                 width={200}
                 height={200}
@@ -34,7 +34,7 @@ const Card = () => {
             <span className="trail" />
           </div>
         </div>
-        <span className="bottom-text text-center">Beyond boundaries Wear your freedom</span>
+        <span className="bottom-text text-center">From Past to Future</span>
       </div>
     </StyledWrapper>
   );

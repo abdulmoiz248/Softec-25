@@ -12,7 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import TopBar from '@/components/landing page/Topbar';
+//import TopBar from '@/components/pharmacy-landing page/Topbar';
 const menuItems = [
   { name: "Profile", href: "/Profile", icon: User },
   { name: "Shop Now", href: "/all-products", icon: Package },
@@ -48,7 +48,7 @@ export default function Header() {
               <div className="flex-shrink-0">
                 <Link href="/" className="flex items-center">
                   <Image
-                    src="/images/logo.png"
+                    src="/hygieia-logo.png"
                     alt="Zero Limit"
                     width={120}
                     height={40}
@@ -123,7 +123,7 @@ export default function Header() {
           </div>
         </div>
       </header>
-      <TopBar scrollPosition={scrollPosition} />
+      {/* <TopBar scrollPosition={scrollPosition} /> */}
     </>
   );
 }

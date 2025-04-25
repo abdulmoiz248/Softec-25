@@ -13,7 +13,7 @@ const HomePage = () => {
       onClick={()=>router.push('/all-products')}
       className="md:w-1/2 w-full h-[50vh] md:h-screen relative">
           <Image
-            src="/images/car.jpeg"
+            src="/hygieia-logo.png"
             alt="Car"
             layout="fill"
             objectFit="cover"

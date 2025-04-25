@@ -2,7 +2,14 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Pencil, Shirt, Scissors, CheckCircle, Package, Truck } from 'lucide-react';
+import {
+  FileText,
+  ClipboardList,
+  FlaskConical,
+  CheckCircle,
+  Package,
+  Truck,
+} from 'lucide-react';
 
 const TimelineStep = ({
   icon,
@@ -22,11 +29,9 @@ const TimelineStep = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.2 }}
     >
-      {/* Icon Circle */}
       <div className="absolute left-0 flex items-center justify-center w-12 h-12 rounded-full bg-[#1b03a3] text-white">
         {icon}
       </div>
-      {/* Step Content */}
       <div>
         <h3 className="text-lg font-bold mb-2">{title}</h3>
         <p className="text-gray-600">{description}</p>
@@ -35,38 +40,37 @@ const TimelineStep = ({
   );
 };
 
-const ManufacturingTimeline = () => {
+const PharmacyWorkflow = () => {
   const steps = [
     {
-      icon: <Pencil size={24} />,
-      title: 'Concept & Design',
-      description: 'Brainstorming and sketching unique, bold designs aligned with our brand ethos.',
+      icon: <FileText size={24} />,
+      title: 'Prescription Received',
+      description: 'We securely receive and validate prescriptions from verified healthcare providers.',
     },
     {
-      icon: <Shirt size={24} />,
-      title: 'Material Selection',
-      description:
-        'Sourcing high-quality, eco-friendly fabrics like our signature 300 GSM material for optimal comfort and durability.',
+      icon: <ClipboardList size={24} />,
+      title: 'Order Processing',
+      description: 'Orders are logged, cross-checked, and queued for fulfillment with utmost accuracy.',
     },
     {
-      icon: <Scissors size={24} />,
-      title: 'Cutting & Sewing',
-      description: 'Precision craftsmanship to ensure every garment meets our premium standards.',
+      icon: <FlaskConical size={24} />,
+      title: 'Medication Preparation',
+      description: 'Licensed pharmacists prepare prescriptions with precision and verified dosage protocols.',
     },
     {
       icon: <CheckCircle size={24} />,
-      title: 'Quality Check',
-      description: 'Rigorous inspection of every product to guarantee flawless stitching, fit, and finish.',
+      title: 'Quality Assurance',
+      description: 'Each order undergoes rigorous checks to ensure safety, compliance, and accuracy.',
     },
     {
       icon: <Package size={24} />,
-      title: 'Packaging',
-      description: 'Eco-friendly packaging that aligns with our commitment to sustainability.',
+      title: 'Secure Packaging',
+      description: 'Meds are packed using tamper-proof, labeled packaging that maintains integrity and confidentiality.',
     },
     {
       icon: <Truck size={24} />,
-      title: 'Shipping & Delivery',
-      description: 'Timely delivery to bring our fearless designs to customers worldwide.',
+      title: 'Delivery & Tracking',
+      description: 'Orders are dispatched with real-time tracking and optional pharmacist support on arrival.',
     },
   ];
 
@@ -78,10 +82,9 @@ const ManufacturingTimeline = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        Our Premium Manufacturing Process
+        Hygieia Pharmacy Workflow
       </motion.h2>
       <div className="relative">
-        {/* Vertical Line */}
         <div className="absolute left-6 top-0 bottom-0 w-1 bg-gray-200"></div>
         {steps.map((step, index) => (
           <TimelineStep key={index} {...step} index={index} />
@@ -91,4 +94,4 @@ const ManufacturingTimeline = () => {
   );
 };
 
-export default ManufacturingTimeline;
+export default PharmacyWorkflow;

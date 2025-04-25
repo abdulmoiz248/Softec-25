@@ -8,7 +8,8 @@ import axios from 'axios';
 import { Product } from '@/Models/Product';
 import { Toaster } from 'react-hot-toast';
 import { set } from 'mongoose';
-
+import  Header  from '@/components/pharmacy-landing page/Header';
+import  Footer  from '@/components/pharmacy-landing page/Footer';
 
 const BelowHeader = dynamic(() => import('@/components/pharmacy-landing page/BelowHeader'), {
   ssr: false,
@@ -98,21 +99,21 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-     try {
-       const res = await axios.get('/api/fetchAll');
-        if (res.data.success) {
-          setLoading(false);
-          setProducts(res.data.products);
-          setCategories(res.data.categories);
-          // Scroll to the top once the loading is done
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      } catch (error) {
-        console.log(error);
-        window.location.reload();
-      }finally{
+    //  try {
+    //    const res = await axios.get('/api/fetchAll');
+    //     if (res.data.success) {
+    //       setLoading(false);
+    //       setProducts(res.data.products);
+    //       setCategories(res.data.categories);
+    //       // Scroll to the top once the loading is done
+    //       window.scrollTo({ top: 0, behavior: 'smooth' });
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //     window.location.reload();
+    //   }finally{
          setLoading(false);
-      }
+   //   }
     };
     fetchData();
   }, []);
@@ -124,6 +125,7 @@ export default function Home() {
       ) : (
         <>
           <Toaster />
+          <Header/>
           <motion.div
             ref={belowHeaderRef}
             variants={animationVariants}
@@ -147,16 +149,7 @@ export default function Home() {
             <PremiumCertificate />
           </motion.div>
 
-          <motion.div
-            ref={coverImageRef}
-            variants={animationVariants}
-            initial="hidden"
-            animate={isCoverImageInView ? 'visible' : 'hidden'}
-            transition={{ duration: 0.5 }}
-            className="overflow-hidden"
-          >
-            <CoverImage />
-          </motion.div>
+         
 
           <motion.div
             ref={offerRef}
@@ -169,18 +162,9 @@ export default function Home() {
             <OfferSection />
           </motion.div>
 
-          <motion.div
-            ref={unisexRef}
-            variants={animationVariants}
-            initial="hidden"
-            animate={isUnisexInView ? 'visible' : 'hidden'}
-            transition={{ duration: 0.5 }}
-            className="overflow-hidden"
-          >
-            <UnisexClothingSection />
-          </motion.div>
+          
 
-          <motion.div
+          {/* <motion.div
             ref={catRef}
             variants={animationVariants}
             initial="hidden"
@@ -189,7 +173,7 @@ export default function Home() {
             className="overflow-hidden"
           >
             <CatCarousel categories={categories!} />
-          </motion.div>
+          </motion.div> */}
 
           <motion.div
             ref={reviewsRef}
@@ -202,7 +186,7 @@ export default function Home() {
             <CustomerReviews />
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             ref={featuredRef}
             variants={animationVariants}
             initial="hidden"
@@ -211,7 +195,7 @@ export default function Home() {
             className="overflow-hidden"
           >
             <StableCarousel featuredProducts={products} />
-          </motion.div>
+          </motion.div> */}
 
           <motion.div
             ref={manifestoRef}
@@ -245,6 +229,7 @@ export default function Home() {
           >
             <JoinUs />
           </motion.div>
+          <Footer/>
         </>
       )}
     </>

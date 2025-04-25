@@ -4,21 +4,21 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { z } from 'zod'
 import axios from 'axios'
-import { AlertCircle, CheckCircle2, X, Zap } from 'lucide-react'
+import { AlertCircle, CheckCircle2, X, Pill } from 'lucide-react'
 
 const emailSchema = z.object({
   email: z.string().email("Invalid email format"),
 })
 
-const fearlessQuotes = [
-  "Courage is fear that has said its prayers.",
-  "Fear is a reaction. Courage is a decision.",
-  "Bravery is the solution to regret.",
-  "To be fearless is to be fully alive.",
-  "Your fear is 100% dependent on you for its survival.",
+const pharmacyQuotes = [
+  "Health is the greatest wealth.",
+  "Good health starts with trusted care.",
+  "Your well-being, our priority.",
+  "Because every dose matters.",
+  "Where wellness meets convenience.",
 ]
 
-export default function BecomeFearless() {
+export default function JoinUs() {
   const [email, setEmail] = useState('')
   const [isModalOpen, setModalOpen] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -26,7 +26,7 @@ export default function BecomeFearless() {
   const [quote, setQuote] = useState('')
 
   useEffect(() => {
-    setQuote(fearlessQuotes[Math.floor(Math.random() * fearlessQuotes.length)])
+    setQuote(pharmacyQuotes[Math.floor(Math.random() * pharmacyQuotes.length)])
   }, [])
 
   const closeModal = () => setModalOpen(false)
@@ -63,13 +63,13 @@ export default function BecomeFearless() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-black p-4">
       <motion.div 
-        className="w-full max-w-md"
+        className="w-full max-w-md bg-black"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
         <motion.div 
-          className="bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg rounded-xl shadow-2xl p-8 relative overflow-hidden"
+          className="bg-black bg-opacity-5  backdrop-filter backdrop-blur-lg rounded-xl shadow-2xl p-8 relative overflow-hidden"
           whileHover={{ scale: 1.02 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
@@ -83,7 +83,7 @@ export default function BecomeFearless() {
             animate={{ scale: [1, 1.2, 1], rotate: -360 }}
             transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
           />
-          <h2 className="text-4xl font-bold mb-6 text-center text-white">Become a Fearless</h2>
+          <h2 className="text-4xl font-bold mb-6 text-center text-white">Join the Health Circle</h2>
           <motion.p 
             className="text-lg mb-8 text-center text-gray-300 italic"
             initial={{ opacity: 0 }}
@@ -96,7 +96,7 @@ export default function BecomeFearless() {
             <div className="relative">
               <motion.input
                 type="email"
-                placeholder="Your Fearless Email"
+                placeholder="Your Email for Wellness"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value)
@@ -139,12 +139,12 @@ export default function BecomeFearless() {
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                 >
-                  <Zap className="w-6 h-6" />
+                  <Pill className="w-6 h-6" />
                 </motion.span>
               ) : (
                 <>
-                  Become Fearless Now
-                  <Zap className="w-6 h-6 ml-2" />
+                  Subscribe to Wellness
+                  <Pill className="w-6 h-6 ml-2" />
                 </>
               )}
             </motion.button>
@@ -190,7 +190,7 @@ export default function BecomeFearless() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                Welcome, Fearless!
+                Welcome to the Circle!
               </motion.h3>
               <motion.p 
                 className="text-gray-600"
@@ -198,7 +198,7 @@ export default function BecomeFearless() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                You&apos;ve taken the first step towards becoming truly Fearless. Get ready for an extraordinary journey filled with challenges, growth, and limitless possibilities.
+                You&apos;re officially part of our health-forward community. Expect expert insights, medicine deals, and more — straight to your inbox.
               </motion.p>
               <motion.div
                 className="mt-6 text-center"
@@ -206,7 +206,7 @@ export default function BecomeFearless() {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 0.6, type: 'spring' }}
               >
-                <Zap className="w-12 h-12 mx-auto text-[#1b03a3]" />
+                <Pill className="w-12 h-12 mx-auto text-[#1b03a3]" />
               </motion.div>
             </motion.div>
           </motion.div>
