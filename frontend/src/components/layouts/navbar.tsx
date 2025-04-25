@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -31,6 +32,7 @@ export default function Navbar() {
     { name: "Blog", href: "#blog" },
     { name: "Contact", href: "#contact" },
   ]
+  const router=useRouter();
 
   return (
     <motion.header
@@ -111,7 +113,11 @@ export default function Navbar() {
                   {item.name}
                 </Link>
               ))}
-              <Button className="bg-blue-500 hover:bg-blue-600 text-white">Get Started</Button>
+              <Button 
+                
+                onClick={() => router.push('/patient/login')}
+            
+               className="bg-blue-500 hover:bg-blue-600 text-white">Get Started</Button>
             </nav>
           </div>
         </motion.div>

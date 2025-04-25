@@ -4,9 +4,11 @@ import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, CheckCircle } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export default function HeroSection() {
   const imageRef = useRef<HTMLDivElement>(null)
+  const router=useRouter();
 
   useEffect(() => {
     // Use CSS animations instead of anime.js
@@ -78,7 +80,7 @@ export default function HeroSection() {
           transition={{ duration: 0.7, delay: 0.6 }}
           className="flex flex-col sm:flex-row gap-4"
         >
-          <Button className="bg-gradient-to-r from-[#34C759] to-[#2A5C82] hover:from-[#2A5C82] hover:to-[#34C759] text-white px-8 py-6 text-lg rounded-full shadow-lg transition-all duration-300 hover:scale-105 group">
+          <Button  onClick={() => router.push('/patient/login')} className="bg-gradient-to-r from-[#34C759] to-[#2A5C82] hover:from-[#2A5C82] hover:to-[#34C759] text-white px-8 py-6 text-lg rounded-full shadow-lg transition-all duration-300 hover:scale-105 group">
             <span className="relative flex items-center">
               Start Your Health Journey
               <ArrowRight className="ml-2 w-5 h-5" />
@@ -86,12 +88,7 @@ export default function HeroSection() {
             </span>
           </Button>
 
-          <Button
-            variant="outline"
-            className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-full"
-          >
-            Watch Demo
-          </Button>
+        
         </motion.div>
       </div>
 
