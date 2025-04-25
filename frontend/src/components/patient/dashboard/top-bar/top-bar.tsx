@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Bell, Settings, User, LogOut, Heart, FileText, Calendar, Pill, Droplet } from "lucide-react"
@@ -25,11 +24,9 @@ type NavItem = {
 export default function TopBar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [hasNotifications, setHasNotifications] = useState(true)
-  const [activeNavItem, setActiveNavItem] = useState("dashboard")
   const userMenuRef = useRef<HTMLDivElement>(null)
   const isMobile = useMobile()
 
-  // Navigation items
   const navItems: NavItem[] = [
     {
       id: "records",
@@ -61,7 +58,6 @@ export default function TopBar() {
     },
   ]
 
-  // Mock user menu options
   const userMenuOptions: UserMenuOption[] = [
     {
       id: "profile",
@@ -83,14 +79,12 @@ export default function TopBar() {
     },
   ]
 
-  // Handle click outside to close the user menu
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
         setIsUserMenuOpen(false)
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
@@ -104,11 +98,6 @@ export default function TopBar() {
   const handleNotificationClick = () => {
     setHasNotifications(false)
     console.log("Notifications clicked")
-  }
-
-  const handleNavItemClick = (id: string) => {
-    setActiveNavItem(id)
-    console.log(`Navigating to ${id}`)
   }
 
   return (
@@ -130,24 +119,12 @@ export default function TopBar() {
             <motion.button
               key={item.id}
               whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => handleNavItemClick(item.id)}
-              className={`relative flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200 ${
-                activeNavItem === item.id
-                  ? `bg-gradient-to-r ${item.color} text-white shadow-lg`
-                  : "text-white/70 hover:text-white hover:bg-white/10"
-              }`}
+              whileTap={{ scale: 0.95 }}
+              className={`relative flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200 text-white/70 hover:text-white hover:bg-gradient-to-r ${item.color} hover:shadow-lg`}
+              onClick={(e) => e.preventDefault()} // Prevent any click behavior
             >
               <item.icon className="w-5 h-5" />
               <span className="mt-1 text-xs font-medium">{item.label}</span>
-              {activeNavItem === item.id && (
-                <motion.div
-                  layoutId="activeIndicator"
-                  className="absolute -bottom-1 w-12 h-0.5 bg-white rounded-full"
-                  initial={false}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
             </motion.button>
           ))}
         </div>

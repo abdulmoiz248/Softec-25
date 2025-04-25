@@ -1,8 +1,6 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
 import { motion } from "framer-motion"
 import { FileText, Calendar, Pill, Droplet } from "lucide-react"
 
@@ -15,8 +13,6 @@ type NavItem = {
 }
 
 export default function MobileNav() {
-  const [activeNavItem, setActiveNavItem] = useState("dashboard")
-
   // Navigation items
   const navItems: NavItem[] = [
     {
@@ -49,11 +45,6 @@ export default function MobileNav() {
     },
   ]
 
-  const handleNavItemClick = (id: string) => {
-    setActiveNavItem(id)
-    console.log(`Navigating to ${id}`)
-  }
-
   return (
     <div className="md:hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-2 py-2 bg-gradient-to-r from-[#09203F]/80 to-[#537895]/80 backdrop-blur-xl rounded-2xl border border-white/20 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
       <div className="flex items-center justify-between">
@@ -62,12 +53,7 @@ export default function MobileNav() {
             key={item.id}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => handleNavItemClick(item.id)}
-            className={`relative flex flex-col items-center justify-center p-2 mx-2 rounded-lg transition-all duration-200 ${
-              activeNavItem === item.id
-                ? `bg-gradient-to-r ${item.color} text-white shadow-lg`
-                : "text-white/70 hover:text-white"
-            }`}
+            className={`relative flex flex-col items-center justify-center p-2 mx-2 rounded-lg transition-all duration-200 text-white/70 hover:text-white hover:bg-gradient-to-r ${item.color} hover:shadow-lg`}
           >
             <item.icon className="w-5 h-5" />
             <span className="mt-1 text-[10px] font-medium">{item.label}</span>

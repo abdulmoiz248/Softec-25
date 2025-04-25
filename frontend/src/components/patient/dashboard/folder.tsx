@@ -183,7 +183,7 @@ const Folder: React.FC<FolderProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="mt-4 text-lg font-medium text-white"
+        className="mt-4 text-lg font-medium text-white z-1"
       >
         {label}
       </motion.span>
