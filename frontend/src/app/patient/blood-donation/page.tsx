@@ -6,6 +6,7 @@ import { Droplet, Users } from 'lucide-react'
 import RequestBlood from "@/components/patient/blood-donation/request-blood"
 import DonateBlood from "@/components/patient/blood-donation/donate-blood"
 import BloodGroupStats from "@/components/patient/blood-donation/blood-group-stats"
+import TopBar from "@/components/patient/dashboard/top-bar/top-bar"
 
 export default function BloodDonationPage() {
   const [activeTab, setActiveTab] = useState<"request" | "donate">("request")
@@ -13,6 +14,7 @@ export default function BloodDonationPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#09203F] to-[#537895]">
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        <TopBar/>
         {/* Page Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
