@@ -4,8 +4,7 @@ import type React from "react"
 
 import { motion } from "framer-motion"
 import { useState } from "react"
-import { Droplet, User, MapPin, Check, AlertCircle, Heart } from "lucide-react"
-import LocationFilter from "./location-filter"
+import { Droplet, User, MapPin, Check, AlertCircle, Heart, Edit, Clock } from "lucide-react"
 import BloodGroupSelector from "./blood-group-selector"
 
 export default function DonateBlood() {
@@ -15,7 +14,6 @@ export default function DonateBlood() {
     email: "",
     phone: "",
     bloodGroup: "",
-    location: "",
     city: "",
     gender: "",
     age: "",
@@ -23,6 +21,7 @@ export default function DonateBlood() {
     medicalInfo: "",
   })
   const [submissionStatus, setSubmissionStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [editingField, setEditingField] = useState<string | null>(null)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -33,20 +32,26 @@ export default function DonateBlood() {
     setFormData((prev) => ({ ...prev, bloodGroup }))
   }
 
-  const handleLocationSelect = (location: string) => {
-    setFormData((prev) => ({ ...prev, location }))
-  }
-
   const handleGenderSelect = (gender: string) => {
     setFormData((prev) => ({ ...prev, gender }))
   }
 
   const handleNextStep = () => {
     setFormStep((prev) => prev + 1)
+    setEditingField(null)
   }
 
   const handlePrevStep = () => {
     setFormStep((prev) => prev - 1)
+    setEditingField(null)
+  }
+
+  const handleEditField = (field: string) => {
+    setEditingField(field)
+  }
+
+  const handleEditInfo = () => {
+    setFormStep(1)
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -60,11 +65,13 @@ export default function DonateBlood() {
     }, 1500)
   }
 
+  // Fix the issue with the Next button in the second phase
+  // Update the isStepComplete function to properly validate the second step
   const isStepComplete = () => {
     if (formStep === 1) {
       return formData.name && formData.email && formData.phone
     } else if (formStep === 2) {
-      return formData.bloodGroup && formData.location && formData.city
+      return formData.bloodGroup && formData.city
     } else if (formStep === 3) {
       return formData.gender && formData.age
     }
@@ -254,27 +261,20 @@ export default function DonateBlood() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div>
-                  <label className="block text-sm font-medium text-red-200 mb-2">Location</label>
-                  <LocationFilter onSelectLocation={handleLocationSelect} />
-                </div>
-
-                <div>
-                  <label htmlFor="city" className="block text-sm font-medium text-red-200 mb-1">
-                    City
-                  </label>
-                  <input
-                    type="text"
-                    id="city"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10 text-white placeholder-red-300/70 focus:outline-none focus:border-red-400/50"
-                    placeholder="Enter your city"
-                    required
-                  />
-                </div>
+              <div className="mt-4">
+                <label htmlFor="city" className="block text-sm font-medium text-red-200 mb-1">
+                  City
+                </label>
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10 text-white placeholder-red-300/70 focus:outline-none focus:border-red-400/50"
+                  placeholder="Enter your city"
+                  required
+                />
               </div>
 
               <div className="p-4 bg-red-500/10 rounded-xl border border-red-500/30 mt-6">
@@ -332,25 +332,74 @@ export default function DonateBlood() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div>
-                  <label htmlFor="age" className="block text-sm font-medium text-red-200 mb-1">
+              <div className="mt-4">
+                <div className="flex items-center mb-2">
+                  <Clock className="w-4 h-4 mr-2 text-red-300" />
+                  <label htmlFor="age" className="text-sm font-medium text-red-200">
                     Age
                   </label>
-                  <input
-                    type="number"
-                    id="age"
-                    name="age"
-                    min="18"
-                    max="65"
-                    value={formData.age}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10 text-white placeholder-red-300/70 focus:outline-none focus:border-red-400/50"
-                    placeholder="Enter your age"
-                    required
-                  />
                 </div>
 
+                {/* Prettier Age Input */}
+                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+                  <div className="flex items-center justify-center">
+                    <div className="relative w-32 h-32">
+                      <svg className="w-full h-full" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8" />
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="45"
+                          fill="none"
+                          stroke="url(#gradient)"
+                          strokeWidth="8"
+                          strokeDasharray={`${(Number(formData.age) || 0) * 2.83} 283`}
+                          strokeDashoffset="0"
+                          transform="rotate(-90 50 50)"
+                        />
+                        <defs>
+                          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#ef4444" />
+                            <stop offset="100%" stopColor="#f87171" />
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                      <div className="absolute inset-0 flex items-center justify-center flex-col">
+                        <input
+                          type="number"
+                          id="age"
+                          name="age"
+                          min="18"
+                          max="65"
+                          value={formData.age}
+                          onChange={handleInputChange}
+                          className="w-16 text-center text-2xl font-bold bg-transparent border-none text-white focus:outline-none focus:ring-0"
+                          required
+                        />
+                        <span className="text-xs text-red-300">years</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <input
+                      type="range"
+                      min="18"
+                      max="65"
+                      value={formData.age || 18}
+                      onChange={handleInputChange}
+                      name="age"
+                      className="w-full h-1 bg-red-900/50 rounded-lg appearance-none cursor-pointer accent-red-500"
+                    />
+                    <div className="flex justify-between mt-1">
+                      <span className="text-xs text-red-300">18</span>
+                      <span className="text-xs text-red-300">65</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div>
                   <label htmlFor="lastDonated" className="block text-sm font-medium text-red-200 mb-1">
                     Last Donation Date (if any)
@@ -384,9 +433,11 @@ export default function DonateBlood() {
           {/* Step 4: Medical Information and Confirmation */}
           {formStep === 4 && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-              <div className="flex items-center mb-4">
-                <Check className="w-5 h-5 mr-2 text-red-300" />
-                <h3 className="text-lg font-medium text-white">Confirm Information</h3>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center">
+                  <Check className="w-5 h-5 mr-2 text-red-300" />
+                  <h3 className="text-lg font-medium text-white">Confirm Information</h3>
+                </div>
               </div>
 
               <div>
@@ -405,7 +456,19 @@ export default function DonateBlood() {
               </div>
 
               <div className="p-4 bg-white/10 rounded-xl border border-white/10 mt-6">
-                <h4 className="font-medium text-white mb-3">Review Your Information</h4>
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="font-medium text-white">Review Your Information</h4>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    type="button"
+                    onClick={handleEditInfo}
+                    className="flex items-center text-sm font-medium text-red-300 hover:text-white"
+                  >
+                    <Edit className="w-4 h-4 mr-1" />
+                    Edit Info
+                  </motion.button>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -428,10 +491,6 @@ export default function DonateBlood() {
                   </div>
 
                   <div className="space-y-2">
-                    <div className="flex items-center">
-                      <span className="w-24 text-sm text-red-200">Location:</span>
-                      <span className="text-white">{formData.location || "Not specified"}</span>
-                    </div>
                     <div className="flex items-center">
                       <span className="w-24 text-sm text-red-200">City:</span>
                       <span className="text-white">{formData.city}</span>
@@ -463,7 +522,7 @@ export default function DonateBlood() {
             </motion.div>
           )}
 
-          {/* Success/Error Message */}
+          {/* Success/Error Message - Only shown after submission */}
           {submissionStatus === "success" && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}

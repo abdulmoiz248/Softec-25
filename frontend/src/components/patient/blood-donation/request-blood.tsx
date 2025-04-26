@@ -1,8 +1,8 @@
 "use client"
 
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { useState } from "react"
-import { Search, MapPin, Filter, Droplet, User, Calendar, Phone, Mail, X } from 'lucide-react'
+import { Search, MapPin, Droplet, User, Clock } from "lucide-react"
 import DonorList from "./donor-list"
 import DonorDetailsModal from "./donor-details-modal"
 import LocationFilter from "./location-filter"
@@ -119,7 +119,6 @@ export default function RequestBlood() {
   const [bloodGroup, setBloodGroup] = useState<string>("")
   const [gender, setGender] = useState<string>("")
   const [ageRange, setAgeRange] = useState<[number, number]>([18, 65])
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [selectedDonor, setSelectedDonor] = useState<any | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
 
@@ -146,8 +145,12 @@ export default function RequestBlood() {
     setSelectedDonor(null)
   }
 
-  const toggleFilter = () => {
-    setIsFilterOpen(!isFilterOpen)
+  const resetFilters = () => {
+    setLocation("")
+    setBloodGroup("")
+    setGender("")
+    setAgeRange([18, 65])
+    setSearchQuery("")
   }
 
   return (
@@ -160,140 +163,168 @@ export default function RequestBlood() {
         </div>
 
         <div className="relative z-10 p-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-            <h2 className="text-2xl font-bold text-white">Find Blood Donors</h2>
+          <h2 className="text-2xl font-bold text-white mb-6">Find Blood Donors</h2>
 
-            {/* Search and Filter */}
-            <div className="flex space-x-3">
-              <div className="relative flex-grow">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-red-300 w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Search donors..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10 text-white placeholder-red-300/70 focus:outline-none focus:border-red-400/50"
-                />
-              </div>
+          {/* Search Bar */}
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-red-300 w-4 h-4" />
+            <input
+              type="text"
+              placeholder="Search donors by name, blood group, or location..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10 text-white placeholder-red-300/70 focus:outline-none focus:border-red-400/50"
+            />
+          </div>
 
+          {/* Filters Section */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/10 p-4 mb-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-medium text-white">Filters</h3>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={toggleFilter}
-                className={`p-2 rounded-xl ${
-                  isFilterOpen
-                    ? "bg-red-500/30 text-white border border-red-500/50"
-                    : "bg-white/10 text-white border border-white/10"
-                }`}
+                onClick={resetFilters}
+                className="text-sm font-medium text-red-200 hover:text-white"
               >
-                <Filter className="w-5 h-5" />
+                Reset All
               </motion.button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Location Filter */}
+              <div>
+                <div className="flex items-center mb-2">
+                  <MapPin className="w-4 h-4 mr-2 text-red-300" />
+                  <label className="text-sm font-medium text-red-200">Location</label>
+                </div>
+                <LocationFilter onSelectLocation={setLocation} />
+              </div>
+
+              {/* Blood Group Filter */}
+              <div>
+                <div className="flex items-center mb-2">
+                  <Droplet className="w-4 h-4 mr-2 text-red-300" />
+                  <label className="text-sm font-medium text-red-200">Blood Group</label>
+                </div>
+                <BloodGroupSelector onSelectBloodGroup={setBloodGroup} selectedBloodGroup={bloodGroup} />
+              </div>
+
+              {/* Gender Filter */}
+              <div>
+                <div className="flex items-center mb-2">
+                  <User className="w-4 h-4 mr-2 text-red-300" />
+                  <label className="text-sm font-medium text-red-200">Gender</label>
+                </div>
+                <div className="flex space-x-2">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setGender(gender === "Male" ? "" : "Male")}
+                    className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium ${
+                      gender === "Male"
+                        ? "bg-red-500/30 text-white border border-red-500/50"
+                        : "bg-white/10 text-white border border-white/10"
+                    }`}
+                  >
+                    Male
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setGender(gender === "Female" ? "" : "Female")}
+                    className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium ${
+                      gender === "Female"
+                        ? "bg-red-500/30 text-white border border-red-500/50"
+                        : "bg-white/10 text-white border border-white/10"
+                    }`}
+                  >
+                    Female
+                  </motion.button>
+                </div>
+              </div>
+
+              {/* Age Range Filter */}
+              <div>
+                <div className="flex items-center mb-2">
+                  <Clock className="w-4 h-4 mr-2 text-red-300" />
+                  <label className="text-sm font-medium text-red-200">
+                    Age Range: {ageRange[0]} - {ageRange[1]}
+                  </label>
+                </div>
+
+                {/* Prettier Age Range Selector */}
+                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+                  <div className="relative mb-6 pt-2">
+                    <div className="h-1 w-full bg-red-900/50 rounded-full">
+                      <div
+                        className="absolute h-1 bg-gradient-to-r from-red-500 to-red-400 rounded-full"
+                        style={{
+                          left: `${((ageRange[0] - 18) / (65 - 18)) * 100}%`,
+                          width: `${((ageRange[1] - ageRange[0]) / (65 - 18)) * 100}%`,
+                        }}
+                      ></div>
+                    </div>
+
+                    {/* Min Thumb */}
+                    <div
+                      className="absolute top-0 -mt-1 -ml-2"
+                      style={{ left: `${((ageRange[0] - 18) / (65 - 18)) * 100}%` }}
+                    >
+                      <div className="w-4 h-4 bg-gradient-to-br from-red-400 to-red-500 rounded-full shadow-lg border border-white/20 flex items-center justify-center">
+                        <div className="w-1 h-1 bg-white rounded-full"></div>
+                      </div>
+                    </div>
+
+                    {/* Max Thumb */}
+                    <div
+                      className="absolute top-0 -mt-1 -ml-2"
+                      style={{ left: `${((ageRange[1] - 18) / (65 - 18)) * 100}%` }}
+                    >
+                      <div className="w-4 h-4 bg-gradient-to-br from-red-400 to-red-500 rounded-full shadow-lg border border-white/20 flex items-center justify-center">
+                        <div className="w-1 h-1 bg-white rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-xs text-red-200 mb-1 block">Min Age</label>
+                      <input
+                        type="range"
+                        min={18}
+                        max={65}
+                        value={ageRange[0]}
+                        onChange={(e) => setAgeRange([Math.min(Number(e.target.value), ageRange[1] - 1), ageRange[1]])}
+                        className="w-full h-1 bg-red-900/50 rounded-lg appearance-none cursor-pointer accent-red-500"
+                      />
+                      <div className="text-center mt-1 text-sm text-white font-medium">{ageRange[0]}</div>
+                    </div>
+                    <div>
+                      <label className="text-xs text-red-200 mb-1 block">Max Age</label>
+                      <input
+                        type="range"
+                        min={18}
+                        max={65}
+                        value={ageRange[1]}
+                        onChange={(e) => setAgeRange([ageRange[0], Math.max(Number(e.target.value), ageRange[0] + 1)])}
+                        className="w-full h-1 bg-red-900/50 rounded-lg appearance-none cursor-pointer accent-red-500"
+                      />
+                      <div className="text-center mt-1 text-sm text-white font-medium">{ageRange[1]}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Filters */}
-          <AnimatePresence>
-            {isFilterOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="mb-6"
-              >
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/10 p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {/* Location Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-red-200 mb-2">Location</label>
-                      <LocationFilter onSelectLocation={setLocation} />
-                    </div>
-
-                    {/* Blood Group Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-red-200 mb-2">Blood Group</label>
-                      <BloodGroupSelector onSelectBloodGroup={setBloodGroup} selectedBloodGroup={bloodGroup} />
-                    </div>
-
-                    {/* Gender Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-red-200 mb-2">Gender</label>
-                      <div className="flex space-x-2">
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => setGender(gender === "Male" ? "" : "Male")}
-                          className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium ${
-                            gender === "Male"
-                              ? "bg-red-500/30 text-white border border-red-500/50"
-                              : "bg-white/10 text-white border border-white/10"
-                          }`}
-                        >
-                          Male
-                        </motion.button>
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => setGender(gender === "Female" ? "" : "Female")}
-                          className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium ${
-                            gender === "Female"
-                              ? "bg-red-500/30 text-white border border-red-500/50"
-                              : "bg-white/10 text-white border border-white/10"
-                          }`}
-                        >
-                          Female
-                        </motion.button>
-                      </div>
-                    </div>
-
-                    {/* Age Range Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-red-200 mb-2">
-                        Age Range: {ageRange[0]} - {ageRange[1]}
-                      </label>
-                      <div className="px-2">
-                        <input
-                          type="range"
-                          min={18}
-                          max={65}
-                          value={ageRange[0]}
-                          onChange={(e) => setAgeRange([parseInt(e.target.value), ageRange[1]])}
-                          className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
-                        />
-                        <input
-                          type="range"
-                          min={18}
-                          max={65}
-                          value={ageRange[1]}
-                          onChange={(e) => setAgeRange([ageRange[0], parseInt(e.target.value)])}
-                          className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer mt-2"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end mt-4">
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => {
-                        setLocation("")
-                        setBloodGroup("")
-                        setGender("")
-                        setAgeRange([18, 65])
-                      }}
-                      className="py-2 px-4 text-sm font-medium text-red-200 hover:text-white"
-                    >
-                      Reset Filters
-                    </motion.button>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
           {/* Donors List */}
-          <DonorList donors={filteredDonors} onSelectDonor={handleDonorSelect} />
+          <div>
+            <h3 className="text-xl font-medium text-white mb-4">
+              {filteredDonors.length} Donor{filteredDonors.length !== 1 && "s"} Available
+            </h3>
+            <DonorList donors={filteredDonors} onSelectDonor={handleDonorSelect} />
+          </div>
         </div>
       </div>
 
