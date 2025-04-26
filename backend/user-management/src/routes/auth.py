@@ -5,8 +5,10 @@ from schemas import auth as auth_schemas, user as user_schemas
 from models.user import User, UserRole
 from models.patient import Patient
 from models.doctor import Doctor
+from typing import List
 from core.security import hash_password, verify_password, create_access_token
 from dependencies import get_db
+from fastapi import Response
 
 router = APIRouter()
 
@@ -49,3 +51,28 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
         raise HTTPException(status_code=401, detail="Invalid credentials")
     access_token = create_access_token({"sub": user.email, "role": user.role.value})
     return {"access_token": access_token, "token_type": "bearer"}
+
+@router.post("/logout", status_code=204)
+def logout(response: Response):
+    """
+    A no-op logout endpoint: client should simply drop its token.
+    Returns 204 No Content.
+    """
+    return Response(status_code=204)
+
+@router.get("/doctors", response_model=List[user_schemas.DoctorRead])
+def list_doctors(db: Session = Depends(get_db)):
+    docs = db.query(Doctor).all()
+    # we assume Doctor.user relationship exists
+    return [
+        user_schemas.DoctorRead(
+            id=doc.user.id,
+            email=doc.user.email,
+            role=doc.user.role,
+            is_verified=doc.user.is_verified,
+            specialization=doc.specialization,
+            license_no=doc.license_no,
+            is_approved=doc.is_approved
+        )
+        for doc in docs
+    ]

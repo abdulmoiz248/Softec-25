@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,17 +8,38 @@ import { Eye, EyeOff, Mail, Lock, UserCog } from "lucide-react";
 import Link from 'next/link';
 import Navbar from '@/components/layouts/navbar';
 
-const AdminLogin = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
- 
+const API_URL = 'http://localhost:8000'
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement actual login logic
-  //  navigate('/dashboard');
-  };
+const AdminLogin = () => {
+  const router = useRouter()
+
+  const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState<string|null>(null)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+    try {
+      const formData = new URLSearchParams()
+      formData.append('username', email)
+      formData.append('password', password)
+
+      const res = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString(),
+      })
+      if (!res.ok) throw new Error('Invalid credentials')
+
+      const { access_token } = await res.json()
+      localStorage.setItem('adminToken', access_token)
+      router.push('/admin/dashboard')
+    } catch (err: any) {
+      setError(err.message || 'Login failed')
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#1A1F2C] to-[#2C3E50] p-4">

@@ -1,0 +1,167 @@
+Go inside backend/user-management folder
+you have a docker file, requirements.txt and a src folder there
+In same file
+
+run (virtualenv venv) in command line - only the part inside ()
+if virtualenv is not install, install using
+(pip install virtualenv)
+
+now run (virtualenv venv) after installing
+activate virtual environment - same directory - run (venv\Scripts\activate)
+
+make sure (venv) comes in front of cmd line, indicates virtual environment is active.
+
+now run (pip install -r requirements.txt) -  this will install all required packages, use (pip freeze) to confirm
+
+after this
+
+go inside src folder
+backend/user-management/src
+
+run (uvicorn main:app --reload)
+
+visit localhost:8000/docs for apis page (swagger UI)
+
+if package issue comes, install requirements.txt globally 
+for that
+
+deactive virtualenv by entering (deactive) in CLI
+
+go to the requirements.txt directory
+
+write (pip install -r requirements.txt) again in cli, go to src and run app again
+
+
+Authentication Routes
+
+✅ POST /signup
+Purpose: Register a new user as either a patient or a doctor.
+Request Type: application/json
+Required: Send a JSON object in the request body.
+
+Example Request JSON (for Patient):
+
+{
+  "email": "patient@example.com",
+  "password": "strongpassword123",
+  "role": "patient",
+  "full_name": "Alice Smith",
+  "age": "30",
+  "gender": "female",
+  "blood_type": "A+"
+}
+Example Request JSON (for Doctor):
+
+{
+  "email": "doctor@example.com",
+  "password": "strongpassword123",
+  "role": "doctor",
+  "full_name": "Dr. John Doe",
+  "specialization": "Cardiology",
+  "license_no": "DOC-98765"
+}
+Response (200 OK) will of this format:
+{
+  "id": 1,
+  "email": "patient@example.com",
+  "role": "patient",
+  "is_verified": false
+}
+Errors: 400 Bad Request: Email already registered.
+
+You will use multistep form, if user selects doctor in form , show them the next input fields for
+specialization and license_no
+If user selects patient in form, show them the next input fields for age, gender, blood_type
+
+
+🔑 POST /login
+Purpose: Login with your email and password to receive an access token.
+
+Request Type: application/x-www-form-urlencoded (this is the header type)
+Required: Send form fields (NOT JSON) like: 
+use qs for stringify
+
+username=your_email@example.com
+password=your_password
+
+✅ Note: username field = your email
+
+Response (200 OK) will be of the format below, a access token and type.
+
+{
+  "access_token": "jwt.token.string",
+  "token_type": "bearer"
+}
+
+Errors : 401 Unauthorized: Invalid email or password.
+
+Like this
+
+import axios from 'axios';
+import qs from 'qs'; // Needed to stringify form data
+
+const login = async () => {
+  try {
+    const response = await axios.post(
+      'http://localhost:8000/login', // replace with your actual URL
+      qs.stringify({
+        username: 'user@example.com', // ✅ Note: 'username', not 'email'
+        password: 'your_password'
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+    );
+
+    console.log('Access Token:', response.data.access_token);
+  } catch (error) {
+    console.error('Login failed:', error.response?.data || error.message);
+  }
+};
+
+login();
+
+---------------------------------------------
+
+🧑‍⚕️ Patient Routes
+🏠 GET /home
+Access: Only for logged-in patients.
+Authorization: Bearer <access_token> in headers. (header will contain Bearer and a access token, take
+that from cookie which you stored in cookie previously after login).
+
+Response:
+{
+  "msg": "Welcome patient patient@example.com"
+}
+
+👨‍⚕️ Doctor Routes
+🏠 GET /home
+Access: Only for approved doctors.
+Authorization: Bearer <access_token> in headers. (header will contain Bearer and a access token, take
+that from cookie which you stored in cookie previously after login).
+
+Response:
+{
+  "msg": "Welcome Dr. doctor@example.com"
+}
+
+
+👨‍💼 Admin Routes
+✅ POST /admin/approve-doctor/{doctor_id}
+Purpose: Approve a doctor to enable their access.
+Authorization: Only admins can call this route. 
+
+Path Parameter:
+doctor_id (integer) — ID of the doctor to approve.
+
+Example URL:
+POST /admin/approve-doctor/2
+Response:
+{
+  "msg": "Doctor 2 approved"
+}
+Errors:
+404 Not Found: Doctor not found.
+403 - Access Forbidden

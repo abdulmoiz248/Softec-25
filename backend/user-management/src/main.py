@@ -36,11 +36,12 @@ def create_initial_admin():
     from core.security import hash_password
     if not db.query(User).filter(User.role == UserRole.admin).first():
         admin = User(
-            email="admin@hygieia.com",
-            password_hash=hash_password("ChangeMe123!"),
+            email="admin@gmail.com",
+            password_hash=hash_password("admin"),
             role=UserRole.admin,
             is_verified=True
         )
         db.add(admin)
         db.commit()
     db.close()
+
