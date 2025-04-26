@@ -10,6 +10,7 @@ import { Toaster } from 'react-hot-toast';
 import { set } from 'mongoose';
 import  Header  from '@/components/pharmacy-landing page/Header';
 import  Footer  from '@/components/pharmacy-landing page/Footer';
+import TopBar from '@/components/patient/dashboard/top-bar/top-bar';
 
 const BelowHeader = dynamic(() => import('@/components/pharmacy-landing page/BelowHeader'), {
   ssr: false,
@@ -125,7 +126,9 @@ export default function Home() {
       ) : (
         <>
           <Toaster />
+         <TopBar/>
           <Header/>
+
           <motion.div
             ref={belowHeaderRef}
             variants={animationVariants}

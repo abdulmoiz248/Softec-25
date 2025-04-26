@@ -34,7 +34,7 @@ export default function AddProductModal({ isOpen, onClose, onSubmit }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('/api/admin/category');
+        const response = await axios.get('/api/pharmacist/category');
         const data = response.data;
         setCategories(data.categories); 
       } catch (error) {

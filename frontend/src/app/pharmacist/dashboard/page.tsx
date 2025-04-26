@@ -41,6 +41,7 @@ import AddDiscountModal from '@/components/pharmacyAdmin/AddDiscountModal'
 import FeatureProductModal from '@/components/pharmacyAdmin/FeatureModal'
 import DeleteProductModal from '@/components/pharmacyAdmin/DeleteModal'
 import { Order } from '@/Models/Order'
+import TopBar from '@/components/patient/dashboard/top-bar/top-bar'
 
 ChartJS.register(
   CategoryScale,
@@ -194,6 +195,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
+      <TopBar/>
       <div className="max-w-7xl mt-20 mx-auto">
         <header className="mb-8 flex justify-between items-center">
           <h1 className="text-4xl font-bold text-gray-800">E-commerce Dashboard</h1>

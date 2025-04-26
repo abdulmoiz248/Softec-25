@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import axios from 'axios';
+import TopBar from '@/components/layouts/navbar';
 const PharmacistLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
@@ -13,15 +15,26 @@ const PharmacistLogin = () => {
  // const navigate = useNavigate();
 
  const router=useRouter();
-  const handleSubmit = (e: React.FormEvent) => {
+  const  handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
+    const res=await axios.post('/api/pharmacist/login', { email, password })
+    if(res.data.success){
+      router.push('/pharmacist/dashboard');
+    }else{
+      alert(res.data.message);
+    }
+
     // TODO: Implement actual login logic
-    router.push('/dashboard');
+    
   };
 
   return (
+    <>
+    <TopBar/>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#1A1F2C] to-[#2C3E50] p-4">
+      
       <Card className="w-full max-w-md bg-white/10 backdrop-blur-lg border-0 transform transition-all duration-500 hover:scale-[1.02] animate-fade-in">
+      
         <CardHeader className="space-y-1 text-center">
           <div className="flex justify-center mb-2 animate-slide-in-right">
             <User className="h-12 w-12 text-white" />
@@ -87,6 +100,7 @@ const PharmacistLogin = () => {
         </CardContent>
       </Card>
     </div>
+    </>
   );
 };
 

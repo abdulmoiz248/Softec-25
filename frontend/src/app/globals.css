@@ -5,12 +5,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Custom Theme and Variables */
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
+
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 9, 32, 63;
   --background-end-rgb: 83, 120, 149;
-  
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -79,19 +81,26 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-:root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 9, 32, 63;
-  --background-end-rgb: 83, 120, 149;
-}
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(to bottom right, rgb(var(--background-start-rgb)), rgb(var(--background-end-rgb)));
   min-height: 100vh;
 }
 
-/* Custom scrollbar */
+html {
+  scroll-behavior: smooth;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -111,7 +120,6 @@ body {
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Ambient glow effects */
 .glow-blue {
   box-shadow: 0 0 15px 5px rgba(59, 130, 246, 0.3);
 }
@@ -128,7 +136,6 @@ body {
   box-shadow: 0 0 15px 5px rgba(239, 68, 68, 0.3);
 }
 
-/* Glass morphism */
 .glass {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -136,10 +143,8 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Animations */
 @keyframes pulse {
-  0%,
-  100% {
+  0%, 100% {
     opacity: 1;
   }
   50% {
@@ -160,7 +165,6 @@ body {
   }
 }
 
-/* Dark Mode Variants */
 @custom-variant dark (&:is(.dark *));
 @theme inline {
   --color-background: var(--background);

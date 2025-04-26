@@ -20,7 +20,7 @@ const AddDiscountModal = ({ isOpen, onClose, onSubmit }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('/api/admin/category');
+        const response = await axios.get('/api/pharmacist/category');
         setCategories(response.data.categories);
       } catch (error) {
         console.error('Error fetching categories:', error);

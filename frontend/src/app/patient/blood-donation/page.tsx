@@ -13,8 +13,9 @@ export default function BloodDonationPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#09203F] to-[#537895]">
-      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
         <TopBar/>
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+      
         {/* Page Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
